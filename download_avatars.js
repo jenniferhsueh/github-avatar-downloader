@@ -3,6 +3,9 @@ var secret = require('./secret');
 var fs = require('fs');
 // console.log(secret); testing correct token
 
+var repoOwner = process.argv[2];
+var repoName = process.argv[3];
+
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function getRepoContributors(repoOwner, repoName, cb) {
@@ -29,7 +32,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
   });
 
 }
-getRepoContributors("lighthouse-labs", "assessment-exam-student", function(err, result) {
+getRepoContributors(repoOwner, repoName, function(err, result) {
   console.log("Errors:", err);    //calling the function and this is the callback
   // console.log("Result:", result);
   result.forEach(function(item){  //****item is the whole object */
