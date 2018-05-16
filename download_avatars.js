@@ -9,6 +9,9 @@ var repoName = process.argv[3];
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function getRepoContributors(repoOwner, repoName, cb) {
+  if(!repoOwner || !repoName) {
+    throw "FUUUUCK";
+  };
   var options = {
     url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
@@ -31,9 +34,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
     cb(error, JSON.parse(body)) //calling the callback
   });
 
-}
+}       //"lighthouse-labs", "assessment-exam-student" --> to test by hard coding. private repo
 getRepoContributors(repoOwner, repoName, function(err, result) {
-  console.log("Errors:", err);    //calling the function and this is the callback
+  // console.log("Errors:", err);    //calling the function and this is the callback
+  
   // console.log("Result:", result);
   result.forEach(function(item){  //****item is the whole object */
     console.log(item.avatar_url); //item is the response//
@@ -46,9 +50,7 @@ getRepoContributors(repoOwner, repoName, function(err, result) {
 // store that image in 'filepath'
 function downloadImageByURL(url, filePath) {
   request(url, function (error, response, body) {
-    console.log(error);
-    // console.log(body);
-                    // Note 4
+    // console.log(error);
     console.log('Downloading image...'); 
   }).pipe(fs.createWriteStream(filePath));
 }
