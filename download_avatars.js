@@ -1,5 +1,6 @@
 var request = require('request');
-var secret = require('./secret')
+var secret = require('./secret');
+var fs = require('fs');
 // console.log(secret); testing correct token
 
 console.log('Welcome to the GitHub Avatar Downloader!');
@@ -32,6 +33,19 @@ getRepoContributors("lighthouse-labs", "assessment-exam-student", function(err, 
   console.log("Errors:", err);    //calling the function and this is the callback
   // console.log("Result:", result);
   result.forEach(function(item){  //****item is the whole object */
-    console.log(item.avatar_url);
+    console.log(item.avatar_url); //item is the response//
+    var name = item.login
+    downloadImageByURL(item.avatar_url, './avatars/' + name + '.jpg');
   })
 });
+
+// download image from 'url'
+// store that image in 'filepath'
+function downloadImageByURL(url, filePath) {
+  request(url, function (error, response, body) {
+    console.log(error);
+    // console.log(body);
+                    // Note 4
+    console.log('Downloading image...'); 
+  }).pipe(fs.createWriteStream(filePath));
+}
